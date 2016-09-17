@@ -21,6 +21,8 @@ android {
         targetSdkVersion 24
         versionCode 1
         versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
         release {
@@ -28,22 +30,49 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
 }
+
+def supportVersion = '24.2.0'
+def daggerVersion = '2.6.1'
+def supportTestVersion = '0.5'
+def espressoVersion = '2.2.2'
+def mockitoVersion = '1.10.19'
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
 
-    compile 'com.android.support:appcompat-v7:24.2.0'
-    compile 'com.android.support:design:24.2.0'
+    compile "com.android.support:appcompat-v7:$supportVersion"
+    compile "com.android.support:design:$supportVersion"
 
-    compile "com.google.dagger:dagger:2.6.1"
-    apt "com.google.dagger:dagger-compiler:2.6.1"
+    compile "com.google.dagger:dagger:$daggerVersion"
+    apt "com.google.dagger:dagger-compiler:$daggerVersion"
     provided 'javax.annotation:jsr250-api:1.0'
 
     compile 'com.hannesdorfmann.mosby:mvp:2.0.1'
 
     testCompile 'junit:junit:4.12'
-    testCompile 'org.mockito:mockito-all:1.10.19'
+    testCompile "org.mockito:mockito-all:$mockitoVersion"
 
+    androidTestCompile "org.mockito:mockito-core:$mockitoVersion"
+    androidTestCompile "com.google.dexmaker:dexmaker:1.2"
+    androidTestCompile "com.google.dexmaker:dexmaker-mockito:1.2"
+
+    androidTestCompile "com.android.support:support-annotations:$supportVersion"
+
+    androidTestCompile("com.android.support.test:runner:$supportTestVersion") {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+
+    androidTestCompile "com.android.support.test:rules:$supportTestVersion"
+
+    androidTestCompile "com.android.support.test.espresso:espresso-core:$espressoVersion"
+    androidTestCompile("com.android.support.test.espresso:espresso-contrib:$espressoVersion") {
+        exclude group: 'com.android.support', module: 'appcompat'
+        exclude group: 'com.android.support', module: 'support-v4'
+        exclude group: 'com.android.support', module: 'recyclerview-v7'
+        exclude group: 'com.android.support', module: 'design'
+    }
+
+    androidTestApt "com.google.dagger:dagger-compiler:$daggerVersion"
 }
+

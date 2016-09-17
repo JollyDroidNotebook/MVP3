@@ -9,9 +9,10 @@ import dagger.Component;
  */
 @Singleton
 @Component(modules = {
-        AndroidModule.class})
+        AndroidModule.class,
+        MainModule.class})
 public interface ApplicationComponent {
     void inject(MainActivity activity);
 
-    MainPresenterImpl mainPresenter();
+    MainPresenter mainPresenter();
 }
